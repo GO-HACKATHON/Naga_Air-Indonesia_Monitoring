@@ -76,8 +76,6 @@
         <div id="page-wrapper">
 
             <div class="container-fluid">
-
-                <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
                         <h3 class="page-header">
@@ -85,63 +83,65 @@
                         </h3>
                     </div>
                 </div>
-                <!-- /.row -->
 
                 <div class="row">
                     <div class="col-lg-8">
                         <form role="form">
-                            <div class="form-group">
-                                <label>Text Input</label>
-                                <input class="form-control">
-                                <p class="help-block">Example block-level help text here.</p>
+                            <div class="bottom-buffer">
+                                <button type="button" onclick="getLocation()" class="btn btn-primary btn-lg btn-block">Locate Me!</button>
                             </div>
 
                             <div class="form-group">
-                                <label>Text Input with Placeholder</label>
-                                <input class="form-control" placeholder="Enter text">
+                                <label>Latitude</label>
+                                <input id="reportLatitude" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label>Static Control</label>
-                                <p class="form-control-static">email@example.com</p>
+                                <label>Longitude</label>
+                                <input id="reportLongitude" class="form-control">
                             </div>
 
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="reportCategory" class="form-control">
+                                    <option>Sampah</option>
+                                    <option>Kemacetan</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Score</label>
+                                <select id="reportScore" class="form-control">
+                                    <option value="10">A+</option>
+                                    <option value="8">A</option>
+                                    <option value="6">B</option>
+                                    <option value="4">C</option>
+                                    <option value="2">D</option>
+                                    <option value="0">E</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Opinion</label>
+                                <textarea id="reportOpinion" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <button id="btnReportSubmit" type="submit" class="btn btn-success">Submit Button</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-4 upload-panel">
+                        <form role="form">
                             <div class="form-group">
                                 <label>File input</label>
-                                <input type="file">
+                                <input type="file" id="btnReportUpload">
                             </div>
-
-                            <div class="form-group">
-                                <label>Text area</label>
-                                <textarea class="form-control" rows="3"></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Selects</label>
-                                <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Selects</label>
-                                <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-
-                            <button id="btnReportSubmit" type="submit" class="btn btn-default">Submit Button</button>
-                            <button id="btnReportReset type="reset" class="btn btn-default">Reset Button</button>
-
                         </form>
+                        <div class="progress progress-striped active">
+                            <div id="uploader" class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                <span id="txtUploadProgress"></span>
+                            </div>
+                        </div>
+                        <img id="reportPhoto" src="http://placehold.it/300x400">
                     </div>
                 </div>
             </div>

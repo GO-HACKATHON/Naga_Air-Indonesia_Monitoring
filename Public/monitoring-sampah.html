@@ -11,6 +11,10 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <!-- Mapbox -->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.css' rel='stylesheet' />
+
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
@@ -74,50 +78,54 @@
         </nav>
 
         <div id="page-wrapper">
-
             <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3 class="page-header">
-                            Monitoring
-                        </h3>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <!-- MONITORING CATEGORIES -->
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="thumbnail" align="center">
-                            <a href="monitoring-sampah.html">
-                                <img src="images/bali.jpg" alt="Nature" style="width:100%">
-                                    <div class="caption">
-                                <h4>Sampah</h4>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="thumbnail" align="center">
-                            <a href="monitoring-kemacetan.html">
-                                <img src="images/bali.jpg" alt="Nature" style="width:100%">
-                                    <div class="caption">
-                                <h4>Kemacetan</h4>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- MONITORING CATEGORIES -->
-
+                <div id='map'></div>
             </div>
-            <!-- /.container-fluid -->
         </div>
     </div>
 
     <script src="js/dashboard.js" type="text/javascript"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaXZhbndpZHlhbiIsImEiOiJjaXpvNmx6OXQwMDE0MnFucTJhODNzcnJzIn0.17aFDly4h5iOl-o_21e4yw';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
+            center: [4.799804597048271, 52.376172969184644],
+            zoom: 9
+        });
+
+        var firebaseGeojsonFeatures = [];
+        firebaseData = $.getJSON("https://data-visualization-system.firebaseio.com/geofireTest.json", function(json) {
+            firebaseData = json;
+            console.log(firebaseData);
+            for (var key in firebaseData.features) {
+                var f = firebaseData.features[key];
+                firebaseGeojsonFeatures.push(f);
+            }
+        });
+
+        console.log(firebaseGeojsonFeatures);
+
+        map.on('load', function() {
+            map.addSource('firebase', {
+                type: 'geojson',
+                data: {
+                    type: 'FeatureCollection',
+                    features: firebaseGeojsonFeatures
+               }
+            });
+
+            map.addLayer({
+                id: 'firebase',
+                source: 'firebase',
+                type: 'circle',
+                paint: {
+                    "circle-color":'blue',
+                    'circle-radius': 15
+                }
+            })
+        });
+    </script>
 </body>
 
 </html>
