@@ -68,7 +68,7 @@ public class MonitoringFragment extends Fragment {
                     museumsLayer.setProperties(
                             visibility(VISIBLE),
                             circleRadius(8f),
-                            circleColor(Color.argb(1, 55, 148, 179))
+                            circleColor(Color.argb(1, 15, 184, 72))
                     );
 
                     mapboxMap.addLayer(museumsLayer);
