@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "40626504608",
+    "firebase_url": "https://data-visualization-system.firebaseio.com",
+    "project_id": "data-visualization-system",
+    "storage_bucket": "data-visualization-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40626504608:android:37c76ab358ac972f",
+        "android_client_info": {
+          "package_name": "com.naga_air.studioteam.indonesiamonitoring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40626504608-bstr80lbaadpq5qd21p12utd4rvsbe1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.naga_air.studioteam.indonesiamonitoring",
+            "certificate_hash": "5e8d93e79ae8539c6fffb90fe46f652dc524d9be"
+          }
+        },
+        {
+          "client_id": "40626504608-nrb2cvgg890uqislame0ktd9qp4i7qq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnKBYRG5B8QQ52p3MGVtnoYshGxGT0oUE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40626504608-nrb2cvgg890uqislame0ktd9qp4i7qq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

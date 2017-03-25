@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="RedGoogle">#EA4335</color>
+    <color name="Dark_Ebony">#292C33</color>
+    <color name="Ebony">#2D3039</color>
+    <color name="Dodger_Blue">#1E90FF</color>
+    <color name="Yellow">#FFFF00</color>
+</resources>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Indonesia Monitoring</string>
+    <string name="facebook_app_id">748333182007646</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="access_token">pk.eyJ1IjoiYWdhbWhhcmlzdGEiLCJhIjoiY2owaGtocGNmMDNkYzMycDV4MTVxbXh2eiJ9.P0FXTxGXLOgYyZlvVR4BKg</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+</resources>
