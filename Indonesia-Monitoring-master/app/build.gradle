@@ -25,6 +25,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile('com.mapbox.mapboxsdk:mapbox-android-sdk:4.2.2@aar') {
+        transitive = true
+    }
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.google.firebase:firebase-auth:10.0.1'
@@ -37,10 +40,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:10.0.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     testCompile 'junit:junit:4.12'
-    compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:4.2.2@aar'){
-        transitive=true
-    }
 }
+
 
 
 
