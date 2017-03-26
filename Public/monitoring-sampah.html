@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="dashboard.html"><img src="images/icons/logo-white.png">Indonesia Monitoring</a>
+                <a class="navbar-brand" href="dashboard.html"><img src="images/icons/logo-white.png">Indonesia Monitoring v 0.0.1</a>
             </div>
 
             <!-- TOP MENU ITEMS -->
@@ -89,41 +89,75 @@
         mapboxgl.accessToken = 'pk.eyJ1IjoiaXZhbndpZHlhbiIsImEiOiJjaXpvNmx6OXQwMDE0MnFucTJhODNzcnJzIn0.17aFDly4h5iOl-o_21e4yw';
         var map = new mapboxgl.Map({
             container: 'map', // container id
-            style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
+            style: 'mapbox://styles/mapbox/light-v9', //stylesheet location
             center: [4.799804597048271, 52.376172969184644],
             zoom: 9
         });
 
-        var firebaseGeojsonFeatures = [];
-        firebaseData = $.getJSON("https://data-visualization-system.firebaseio.com/geofireTest.json", function(json) {
-            firebaseData = json;
-            console.log(firebaseData);
-            for (var key in firebaseData.features) {
-                var f = firebaseData.features[key];
-                firebaseGeojsonFeatures.push(f);
-            }
-        });
+        var xhReq = new XMLHttpRequest();
+        xhReq.open("GET", "https://data-visualization-system.firebaseio.com/geofireTest.json", false);
+        xhReq.send(null);
+        var jsonObject = JSON.parse(xhReq.responseText);
 
-        console.log(firebaseGeojsonFeatures);
+        var firebaseGeojsonFeatures = [];
+        for (var key in jsonObject.features) {
+            var f = jsonObject.features[key];
+            firebaseGeojsonFeatures.push(f);
+            console.log (f);
+        }
 
         map.on('load', function() {
-            map.addSource('firebase', {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: firebaseGeojsonFeatures
-               }
+            map.addLayer({
+                id: 'points',
+                source:  {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: firebaseGeojsonFeatures
+                    }
+                },
+                type: 'circle',
+                'paint': {
+                    // make circles larger as the user zooms from z12 to z22
+                    'circle-radius': {
+                        'base': 1.75,
+                        'stops': [[12, 5], [22, 180]]
+                    },
+                    // color circles by ethnicity, using data-driven styles
+                    'circle-color': {
+                        property: 'score',
+                        type: 'categorical',
+                        stops: [
+                            ['A+', '#fbb03b'],
+                            ['A', '#223b53'],
+                            ['B', '#e55e5e'],
+                            ['C', '#3bb2d0'],
+                            ['D', '#ccc'],
+                            ['E', '#eee']]
+                    }
+                }
             });
 
             map.addLayer({
-                id: 'firebase',
-                source: 'firebase',
-                type: 'circle',
-                paint: {
-                    "circle-color":'blue',
-                    'circle-radius': 15
+                'id': '3d-buildings',
+                'source': 'composite',
+                'source-layer': 'building',
+                'filter': ['==', 'extrude', 'true'],
+                'type': 'fill-extrusion',
+                'minzoom': 15,
+                'paint': {
+                    'fill-extrusion-color': '#aaa',
+                    'fill-extrusion-height': {
+                        'type': 'identity',
+                        'property': 'height'
+                    },
+                    'fill-extrusion-base': {
+                        'type': 'identity',
+                        'property': 'min_height'
+                    },
+                    'fill-extrusion-opacity': .6
                 }
-            })
+            });
         });
     </script>
 </body>

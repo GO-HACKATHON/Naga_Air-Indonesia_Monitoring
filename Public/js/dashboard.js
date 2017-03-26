@@ -9,6 +9,19 @@
 	};
 	firebase.initializeApp(config);
 
+  firebase.database().ref('geofire/features').push();
+  firebase.database().ref('monitoringMarkers/features').push();
+
+  // LOGOUT ELEMENTS
+  const btnLogout = document.getElementById('btnLogout');
+  btnLogout.addEventListener('click', e => {
+    firebase.auth().signOut().then(function() {
+      window.location.href = 'index.html';
+    }).catch(function(error) {
+      // If there's an error 
+    });
+  });
+
   // USER INFORMATIONS
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
@@ -42,51 +55,53 @@
   });
 
   var downloadURL = "";
-  const btnReportUpload = document.getElementById('btnReportUpload');
-  btnReportUpload.addEventListener('change', function(e) {
-    var file = e.target.files[0];
-    var storageRef = firebase.storage().ref('photos/' + file.name);
-    var task = storageRef.put(file);
+  if (document.getElementById('btnReportUpload')) {
+    const btnReportUpload = document.getElementById('btnReportUpload');
+    btnReportUpload.addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      var storageRef = firebase.storage().ref('photos/' + file.name);
+      var task = storageRef.put(file);
 
-    task.on('state_changed',
-      function progress(snapshot) {
-        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        document.getElementById('txtUploadProgress').innerHTML = percentage + "%";
-        $('.progress-bar').css('width', percentage+'%').attr('aria-valuenow', percentage); 
-      }, function error(err) {
-      }, function() {
-        downloadURL = task.snapshot.downloadURL;
-        document.getElementById('reportPhoto').src = downloadURL;
-      }
-    );
-  });
+      task.on('state_changed',
+        function progress(snapshot) {
+          var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          document.getElementById('txtUploadProgress').innerHTML = percentage + "%";
+          $('.progress-bar').css('width', percentage+'%').attr('aria-valuenow', percentage); 
+        }, function error(err) {
+        }, function() {
+          downloadURL = task.snapshot.downloadURL;
+          document.getElementById('reportPhoto').src = downloadURL;
+        }
+      );
+    });
+  }
 
-  /* SUBMIT NEW REPORT */
-  const reportLatitude = document.getElementById('reportLatitude');
-  const reportLongitude = document.getElementById('reportLongitude');
-  const reportOpinion = document.getElementById('reportOpinion');
-  const reportScore = document.getElementById('reportScore');
-  const reportCategory = document.getElementById('reportCategory');
-  const btnReportSubmit = document.getElementById('btnReportSubmit');
+  /* SUBMIT NEW REPORT */ 
+  if (document.getElementById('btnReportSubmit')) {
+    const reportLatitude = document.getElementById('reportLatitude');
+    const reportLongitude = document.getElementById('reportLongitude');
+    const reportOpinion = document.getElementById('reportOpinion');
+    const reportScore = document.getElementById('reportScore');
+    const reportCategory = document.getElementById('reportCategory');
+    const btnReportSubmit = document.getElementById('btnReportSubmit');
+    btnReportSubmit.addEventListener('click', e => {
+      const latitude = reportLatitude.value;
+      const longitude = reportLongitude.value;
+      const opinion = reportOpinion.value;
+      const score = reportScore.value;
+      const category = reportCategory.value;
 
-  btnReportSubmit.addEventListener('click', e => {
-
-    const latitude = reportLatitude.value;
-    const longitude = reportLongitude.value;
-    const opinion = reportOpinion.value;
-    const score = reportScore.value;
-    const category = reportCategory.value;
-
-    writeNewReport(latitude, longitude, category, score, opinion, downloadURL);    
-  });
+      writeNewReport(latitude, longitude, category, score, opinion, downloadURL);    
+    });
+  }
 
   function writeNewReport(lat, lng, category, score, opinion, imageUrl) {
-    var features = firebase.database().ref('geofireTest/features/').push();
-    var geometry = features.child('geometry');
-    var properties = features.child('properties');
+    console.log('test');
+    var features = firebase.database().ref('geofireTest/features').push();
     features.set({
       type: 'Feature'
     });
+    var geometry = features.child('geometry');
     geometry.set({
       type: 'Point'
     });
@@ -95,24 +110,14 @@
       0: parseFloat(lng),
       1: parseFloat(lat)
     });
+    var properties = features.child('properties');
     properties.set({
       category: category,
-      score: parseInt(score),
+      score: score,
       opinion: opinion,
       imageUrl: imageUrl
     });
   }
-
-	// LOGOUT ELEMENTS
-	const btnLogout = document.getElementById('btnLogout');
-
-	btnLogout.addEventListener('click', e => {
-    firebase.auth().signOut().then(function() {
-      window.location.href = 'index.html';
-    }).catch(function(error) {
-      // If there's an error 
-    });
-  });
 
 }());
 
