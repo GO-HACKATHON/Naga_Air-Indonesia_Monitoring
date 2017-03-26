@@ -35,7 +35,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="dashboard.html"><img src="images/icons/logo-white.png">Indonesia Monitoring v 0.0.1</a>
+                <a class="navbar-brand" href="dashboard.html"><img src="images/icons/logo-white.png">Indonesia Monitoring</a>
             </div>
 
             <!-- TOP MENU ITEMS -->
@@ -81,6 +81,16 @@
             <div class="container-fluid">
                 <div id='map'></div>
             </div>
+
+            <div id='state-legend' class='legend'>
+                <h4>Score</h4>
+                <div><span style='background-color: #698DB1'></span>A+</div>
+                <div><span style='background-color: #72AD6D'></span>A</div>
+                <div><span style='background-color: #F0D06B'></span>B</div>
+                <div><span style='background-color: #F49B58'></span>C</div>
+                <div><span style='background-color: #E37073'></span>D</div>
+                <div><span style='background-color: #888'></span>E</div>
+            </div>
         </div>
     </div>
 
@@ -89,10 +99,14 @@
         mapboxgl.accessToken = 'pk.eyJ1IjoiaXZhbndpZHlhbiIsImEiOiJjaXpvNmx6OXQwMDE0MnFucTJhODNzcnJzIn0.17aFDly4h5iOl-o_21e4yw';
         var map = new mapboxgl.Map({
             container: 'map', // container id
-            style: 'mapbox://styles/mapbox/light-v9', //stylesheet location
-            center: [4.799804597048271, 52.376172969184644],
-            zoom: 9
+            style: 'mapbox://styles/mapbox/dark-v9', //stylesheet location
+            center: [111,-0.207],
+            zoom: 4
         });
+
+        // map.addControl(new mapboxgl.NavigationControl());
+        map.addControl(new mapboxgl.FullscreenControl());
+        map.addControl(new mapboxgl.GeolocateControl());
 
         var xhReq = new XMLHttpRequest();
         xhReq.open("GET", "https://data-visualization-system.firebaseio.com/geofireTest.json", false);
@@ -103,7 +117,6 @@
         for (var key in jsonObject.features) {
             var f = jsonObject.features[key];
             firebaseGeojsonFeatures.push(f);
-            console.log (f);
         }
 
         map.on('load', function() {
@@ -121,19 +134,19 @@
                     // make circles larger as the user zooms from z12 to z22
                     'circle-radius': {
                         'base': 1.75,
-                        'stops': [[12, 5], [22, 180]]
+                        'stops': [[12,7], [22, 180]]
                     },
                     // color circles by ethnicity, using data-driven styles
                     'circle-color': {
                         property: 'score',
                         type: 'categorical',
                         stops: [
-                            ['A+', '#fbb03b'],
-                            ['A', '#223b53'],
+                            ['A+', '#698DB1'],
+                            ['A', '#72AD6D'],
                             ['B', '#e55e5e'],
-                            ['C', '#3bb2d0'],
-                            ['D', '#ccc'],
-                            ['E', '#eee']]
+                            ['C', '#F49B58'],
+                            ['D', '#E37073'],
+                            ['E', '#888']]
                     }
                 }
             });
@@ -158,6 +171,23 @@
                     'fill-extrusion-opacity': .6
                 }
             });
+        });
+
+        map.on('click', function (e) {
+            var features = map.queryRenderedFeatures(e.point, { layers: ['points'] });
+            if (!features.length) {
+                return;
+            }
+            var feature = features[0];
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            var popup = new mapboxgl.Popup()
+                .setLngLat(feature.geometry.coordinates)
+                .setHTML("<br><strong>" + feature.properties.category + "</strong><br><p>"
+                    + feature.properties.score + "</p><p>"
+                    + feature.properties.opinion + "</p>"
+                    )
+                .addTo(map);
         });
     </script>
 </body>
