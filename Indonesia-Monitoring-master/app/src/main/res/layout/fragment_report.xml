@@ -1,0 +1,216 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.naga_air.studioteam.indonesiamonitoring.Fragment.ReportFragment">
+
+<!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@android:color/white">
+
+                <TextView
+                    android:textSize="22sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Ebony"
+                    android:padding="15dp"
+                    android:text="Report"
+                    android:textColor="@android:color/white" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@android:color/white">
+
+                    <TextView
+                        android:textSize="18sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Your Location"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/Dark_Ebony" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:textSize="16sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Latitude"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="5dp"
+                                android:textColor="@color/Dark_Ebony" />
+
+                            <EditText
+                                android:paddingLeft="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/latitude"
+                                android:textCursorDrawable="@null"
+                                android:hint="Latitude"
+                                android:textColorHint="#CCCCCC"
+                                android:inputType="numberDecimal|numberSigned"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:textSize="16sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Longitude"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="5dp"
+                                android:textColor="@color/Dark_Ebony" />
+
+                            <EditText
+                                android:paddingLeft="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/longitude"
+                                android:textCursorDrawable="@null"
+                                android:hint="Longitude"
+                                android:textColorHint="#CCCCCC"
+                                android:inputType="numberDecimal|numberSigned"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:textSize="18sp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Category"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/Dark_Ebony" />
+                    <Spinner
+                        android:id="@+id/catspin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:spinnerMode="dropdown" />
+
+                    <TextView
+                        android:textSize="18sp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Score"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/Dark_Ebony" />
+                    <Spinner
+                        android:id="@+id/scspin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:spinnerMode="dropdown" />
+
+                    <TextView
+                        android:textSize="18sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Opinion"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/Dark_Ebony" />
+                    <EditText
+                        android:paddingLeft="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/opiniEditText"
+                        android:textCursorDrawable="@null"
+                        android:hint="Opinion"
+                        android:textColorHint="#CCCCCC"
+                        android:inputType="text"/>
+
+                    <TextView
+                        android:textSize="18sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Photo Proof"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/Dark_Ebony" />
+
+                    <ImageButton
+                        android:paddingLeft="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:id="@+id/imageSelect"
+                        android:background="@mipmap/add_btn"/>
+
+                    <TextView
+                        android:textSize="18sp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Score Reward : 10 Point"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/Dark_Ebony" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/GreenGojek"
+                android:text="Submit"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
