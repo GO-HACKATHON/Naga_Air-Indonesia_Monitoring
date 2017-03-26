@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard Indonesia Monitoring</title>
+    <script src="https://www.gstatic.com/firebasejs/3.7.3/firebase.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Mapbox -->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.css' rel='stylesheet' />
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <script src="https://use.fontawesome.com/972c381069.js"></script>
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="dashboard.html"><img src="images/icons/logo-white.png">Indonesia Monitoring</a>
+            </div>
+
+            <!-- TOP MENU ITEMS -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle-o"></i> <span id="account-name"></span> <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="profile.html"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="settings.html"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" id="btnLogout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- SIDEBAR MENU ITEMS -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="dashboard.html"><i class="fa fa-fw fa-home"></i> Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <a href="monitoring.html"><i class="fa fa-fw fa-map-o"></i> Monitoring</a>
+                    </li>
+                    <li>
+                        <a href="report.html"><i class="fa fa-fw fa-edit"></i> Report</a>
+                    </li>
+                    <li>
+                        <a href="rewards.html"><i class="fa fa-fw fa-trophy"></i> Rewards</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- SIDEBAR MENU ITEMS -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div id='map'></div>
+            </div>
+
+            <div id='state-legend' class='legend'>
+                <h4>Score</h4>
+                <div><span style='background-color: #698DB1'></span>A+</div>
+                <div><span style='background-color: #72AD6D'></span>A</div>
+                <div><span style='background-color: #F0D06B'></span>B</div>
+                <div><span style='background-color: #F49B58'></span>C</div>
+                <div><span style='background-color: #E37073'></span>D</div>
+                <div><span style='background-color: #888'></span>E</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js" type="text/javascript"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaXZhbndpZHlhbiIsImEiOiJjaXpvNmx6OXQwMDE0MnFucTJhODNzcnJzIn0.17aFDly4h5iOl-o_21e4yw';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/dark-v9', //stylesheet location
+            center: [111,-0.207],
+            zoom: 4
+        });
+
+        // map.addControl(new mapboxgl.NavigationControl());
+        map.addControl(new mapboxgl.FullscreenControl());
+        map.addControl(new mapboxgl.GeolocateControl());
+
+        var xhReq = new XMLHttpRequest();
+        xhReq.open("GET", "https://data-visualization-system.firebaseio.com/geofireTest.json", false);
+        xhReq.send(null);
+        var jsonObject = JSON.parse(xhReq.responseText);
+
+        var firebaseGeojsonFeatures = [];
+        for (var key in jsonObject.features) {
+            var f = jsonObject.features[key];
+            firebaseGeojsonFeatures.push(f);
+        }
+
+        map.on('load', function() {
+            map.addLayer({
+                id: 'points',
+                source:  {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: firebaseGeojsonFeatures
+                    }
+                },
+                type: 'circle',
+                'paint': {
+                    // make circles larger as the user zooms from z12 to z22
+                    'circle-radius': {
+                        'base': 1.75,
+                        'stops': [[12,7], [22, 180]]
+                    },
+                    // color circles by ethnicity, using data-driven styles
+                    'circle-color': {
+                        property: 'score',
+                        type: 'categorical',
+                        stops: [
+                            ['A+', '#698DB1'],
+                            ['A', '#72AD6D'],
+                            ['B', '#e55e5e'],
+                            ['C', '#F49B58'],
+                            ['D', '#E37073'],
+                            ['E', '#888']]
+                    }
+                }
+            });
+
+            map.addLayer({
+                'id': '3d-buildings',
+                'source': 'composite',
+                'source-layer': 'building',
+                'filter': ['==', 'extrude', 'true'],
+                'type': 'fill-extrusion',
+                'minzoom': 15,
+                'paint': {
+                    'fill-extrusion-color': '#aaa',
+                    'fill-extrusion-height': {
+                        'type': 'identity',
+                        'property': 'height'
+                    },
+                    'fill-extrusion-base': {
+                        'type': 'identity',
+                        'property': 'min_height'
+                    },
+                    'fill-extrusion-opacity': .6
+                }
+            });
+        });
+
+        map.on('click', function (e) {
+            var features = map.queryRenderedFeatures(e.point, { layers: ['points'] });
+            if (!features.length) {
+                return;
+            }
+            var feature = features[0];
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            var popup = new mapboxgl.Popup()
+                .setLngLat(feature.geometry.coordinates)
+                .setHTML("<br><strong>" + feature.properties.category + "</strong><br><p>"
+                    + feature.properties.score + "</p><p>"
+                    + feature.properties.opinion + "</p>"
+                    )
+                .addTo(map);
+        });
+    </script>
+</body>
+
+</html>
