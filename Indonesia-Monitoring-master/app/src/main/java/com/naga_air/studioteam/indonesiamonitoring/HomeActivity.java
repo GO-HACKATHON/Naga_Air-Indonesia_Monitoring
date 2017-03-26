@@ -28,6 +28,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.naga_air.studioteam.indonesiamonitoring.Fragment.MonitoringFragment;
+import com.naga_air.studioteam.indonesiamonitoring.Fragment.ReportFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -138,6 +139,13 @@ public class HomeActivity extends AppCompatActivity
             ).commit();
         } else if (id == R.id.menu_profile) {
 
+        } else if (id == R.id.menu_report){
+            ReportFragment reportFragment = new ReportFragment();
+            manager.beginTransaction().replace(
+                    R.id.content_home
+                    , reportFragment
+                    , reportFragment.getTag()
+            ).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

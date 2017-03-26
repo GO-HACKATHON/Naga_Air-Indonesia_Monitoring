@@ -11,4 +11,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_home">HomeActivity</string>
+
+    <string-array name="category_array">
+        <item>Sampah</item>
+        <item>Kemacetan</item>
+    </string-array>
+
+    <string-array name="score_array">
+        <item>A+</item>
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+    </string-array>
+
 </resources>

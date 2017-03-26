@@ -4,6 +4,7 @@ package com.naga_air.studioteam.indonesiamonitoring.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,25 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.style.layers.CircleLayer;
 import com.mapbox.mapboxsdk.style.layers.FillLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.services.commons.geojson.Feature;
+import com.mapbox.services.commons.geojson.FeatureCollection;
+import com.mapbox.services.commons.geojson.Geometry;
 import com.naga_air.studioteam.indonesiamonitoring.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.mapbox.mapboxsdk.style.layers.Property.VISIBLE;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.circleColor;
@@ -39,6 +55,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.visibility;
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class MonitoringFragment extends Fragment {
 
     private MapView mapView;
@@ -59,7 +76,33 @@ public class MonitoringFragment extends Fragment {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
                 try {
-                    URL geoJsonUrl = new URL("https://data-visualization-system.firebaseio.com/geofire.json");
+                    URL geoJsonUrl = new URL("https://data-visualization-system.firebaseio.com/geofireTest.json");
+
+                    /*ArrayList<String> feat = new ArrayList<String>();
+
+                    try {
+                        JSONObject jObj = new JSONObject(doInBackground("https://data-visualization-system.firebaseio.com/geofireTest.json"));
+                        JSONObject featu = jObj.getJSONObject("features");
+                        Iterator<?> keys = featu.keys();
+                        ArrayList<String> kej = new ArrayList<String>();
+                        while( keys.hasNext() ) {
+                            String key = (String)keys.next();
+                            if ( jObj.getJSONObject("features").get(key) instanceof JSONObject ) {
+                                kej.add(key);
+                            }
+                        }
+
+                        for (String key : kej) {
+                            feat.add(featu.getJSONObject(key).getString("type"));
+                        }
+                    } catch (JSONException e) {
+                        Log.e("MYAPP", "unexpected JSON exception", e);
+                        // Do something to recover ... or kill the app.
+                    }
+
+                    //String[] geoFeatures = feat.toArray(new String[feat.size()]);
+                    JSONArray geoJ = new JSONArray(feat);*/
+
                     GeoJsonSource urbanAreasSource = new GeoJsonSource("urban-areas", geoJsonUrl);
                     mapboxMap.addSource(urbanAreasSource);
 
@@ -91,6 +134,53 @@ public class MonitoringFragment extends Fragment {
         });
         return view;
     }
+
+    /*protected String doInBackground(String params) {
+
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(params);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+
+
+            InputStream stream = connection.getInputStream();
+
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line+"\n");
+                Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
+
+            }
+
+            return buffer.toString();
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }*/
+
 
     @Override
     public void onResume() {
