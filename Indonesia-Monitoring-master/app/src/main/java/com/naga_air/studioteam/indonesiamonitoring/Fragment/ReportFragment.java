@@ -39,8 +39,7 @@ public class ReportFragment extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
     private float longitude,latitude;
-    private String categories,opini;
-    private int score;
+    private String categories,score,opini;
     private Spinner mCategory,mScore;
     private EditText mLatitude, mLongitude,mOpini;
     private Button mSubmitBtn;
@@ -92,19 +91,7 @@ public class ReportFragment extends Fragment implements View.OnClickListener{
         mScore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
-                if(parent.getItemAtPosition(i) == "A+"){
-                    score = 10;
-                }if(parent.getItemAtPosition(i) == "A"){
-                    score = 8;
-                }if(parent.getItemAtPosition(i) == "B"){
-                    score = 6;
-                }if(parent.getItemAtPosition(i) == "C"){
-                    score = 4;
-                }if(parent.getItemAtPosition(i) == "D"){
-                    score = 2;
-                }if(parent.getItemAtPosition(i) == "E"){
-                    score = 0;
-                }
+                score = parent.getItemAtPosition(i).toString();
             }
 
             @Override
@@ -134,9 +121,10 @@ public class ReportFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.submitButton:
                 submitReport();
-                MonitoringFragment monitoringFragment = new MonitoringFragment();
-                getFragmentManager().beginTransaction().replace(R.id.content_home, monitoringFragment).addToBackStack("tag").commit();
+                ReportFragment reportFragment = new ReportFragment();
+                getFragmentManager().beginTransaction().replace(R.id.content_home, reportFragment).addToBackStack("tag").commit();
                 Toast.makeText(ReportFragment.this.getActivity(), "Thankyou for your help to make Indonesia better!", Toast.LENGTH_SHORT).show();
+                mProgress.dismiss();
                 break;
         }
     }
@@ -174,8 +162,6 @@ public class ReportFragment extends Fragment implements View.OnClickListener{
                     newMark.child("properties").child("imageUrl").setValue(downloadUrl.toString());
                     newMark.child("properties").child("score").setValue(score);
                     newMark.child("type").setValue("Feature");
-                    mProgress.dismiss();
-
                 }
             });
         }else{
