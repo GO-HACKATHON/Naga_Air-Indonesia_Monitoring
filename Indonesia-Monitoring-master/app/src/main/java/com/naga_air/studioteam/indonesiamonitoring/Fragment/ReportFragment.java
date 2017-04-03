@@ -39,7 +39,8 @@ public class ReportFragment extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
     private float longitude,latitude;
-    private String categories,score,opini;
+    private String categories,opini;
+    private int score;
     private Spinner mCategory,mScore;
     private EditText mLatitude, mLongitude,mOpini;
     private Button mSubmitBtn;
@@ -91,7 +92,19 @@ public class ReportFragment extends Fragment implements View.OnClickListener{
         mScore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
-                score = parent.getItemAtPosition(i).toString();
+                if(parent.getItemAtPosition(i) == "A+"){
+                    score = 10;
+                }if(parent.getItemAtPosition(i) == "A"){
+                    score = 8;
+                }if(parent.getItemAtPosition(i) == "B"){
+                    score = 6;
+                }if(parent.getItemAtPosition(i) == "C"){
+                    score = 4;
+                }if(parent.getItemAtPosition(i) == "D"){
+                    score = 2;
+                }if(parent.getItemAtPosition(i) == "E"){
+                    score = 0;
+                }
             }
 
             @Override
